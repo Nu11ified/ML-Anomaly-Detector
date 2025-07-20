@@ -1,6 +1,6 @@
 # System Anomaly Detector
 
-A sophisticated real-time system monitoring tool that detects anomalies in system metrics using EWMA (Exponentially Weighted Moving Average) and z-score analysis with advanced hysteresis and per-metric tuning.
+A real-time system monitoring tool that detects anomalies in system metrics using EWMA (Exponentially Weighted Moving Average) and z-score analysis with advanced hysteresis and per-metric tuning.
 
 **🖥️ Cross-Platform Support**: macOS, Linux, and Windows
 
