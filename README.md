@@ -405,6 +405,7 @@ This project is open source and available under the MIT License.
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or open issues for:
+
 - Bug fixes
 - New features
 - Documentation improvements
