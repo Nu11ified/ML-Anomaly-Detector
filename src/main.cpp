@@ -6,10 +6,16 @@
 #include <thread>
 #include <chrono>
 #include <csignal>
+#include <memory>
+
+#ifdef _WIN32
+#include <conio.h>
+#include <windows.h>
+#else
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <memory>
+#endif
 
 // Global monitor for signal handling
 static CLIMonitor* g_monitor = nullptr;
@@ -25,6 +31,13 @@ void signal_handler(int signal) {
 
 // Check for keyboard input (non-blocking)
 bool check_keyboard_input() {
+#ifdef _WIN32
+    if (_kbhit()) {
+        char ch = _getch();
+        return (ch == 'i' || ch == 'I');
+    }
+    return false;
+#else
     struct termios old_tio, new_tio;
     tcgetattr(STDIN_FILENO, &old_tio);
     new_tio = old_tio;
@@ -41,6 +54,7 @@ bool check_keyboard_input() {
     tcsetattr(STDIN_FILENO, TCSANOW, &old_tio);
     
     return has_input && (ch == 'i' || ch == 'I');
+#endif
 }
 
 int main() {

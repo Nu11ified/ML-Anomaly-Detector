@@ -33,7 +33,7 @@ public:
     bool initialize() override {
         // Initialize CPU performance counter
         if (PdhOpenQuery(nullptr, 0, &cpu_query_) == ERROR_SUCCESS) {
-            if (PdhAddCounter(cpu_query_, L"\\Processor(_Total)\\% Processor Time", 0, &cpu_counter_) == ERROR_SUCCESS) {
+            if (PdhAddCounterA(cpu_query_, "\\Processor(_Total)\\% Processor Time", 0, &cpu_counter_) == ERROR_SUCCESS) {
                 PdhCollectQueryData(cpu_query_);
                 cpu_initialized_ = true;
             }
@@ -41,7 +41,7 @@ public:
 
         // Initialize disk performance counter
         if (PdhOpenQuery(nullptr, 0, &disk_query_) == ERROR_SUCCESS) {
-            if (PdhAddCounter(disk_query_, L"\\PhysicalDisk(_Total)\\Disk Bytes/sec", 0, &disk_counter_) == ERROR_SUCCESS) {
+            if (PdhAddCounterA(disk_query_, "\\PhysicalDisk(_Total)\\Disk Bytes/sec", 0, &disk_counter_) == ERROR_SUCCESS) {
                 PdhCollectQueryData(disk_query_);
                 disk_initialized_ = true;
             }

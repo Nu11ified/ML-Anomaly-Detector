@@ -287,7 +287,13 @@ void CLIMonitor::draw_progress_bar(float percentage, int width) {
 // Format timestamp for display
 std::string CLIMonitor::format_timestamp(const std::chrono::system_clock::time_point& tp) {
     auto time_t = std::chrono::system_clock::to_time_t(tp);
+    
+#ifdef _WIN32
+    struct tm tm;
+    localtime_s(&tm, &time_t);
+#else
     auto tm = *std::localtime(&time_t);
+#endif
     
     std::ostringstream oss;
     oss << std::put_time(&tm, "%H:%M:%S");
