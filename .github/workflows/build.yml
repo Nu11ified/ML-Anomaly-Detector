@@ -98,9 +98,10 @@ jobs:
         cmake --build . --config Release
         
     - name: Test
+      shell: cmd
       run: |
-        cd build/bin/Release
-        timeout 10s ./anom_detect_windows.exe 2>/dev/null || echo "Test completed"
+        cd build\bin\Release
+        timeout 10 anom_detect_windows.exe >nul 2>&1 || echo "Test completed"
         
     - name: Create release package
       run: |
