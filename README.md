@@ -2,46 +2,46 @@
 
 A real-time system monitoring tool that detects anomalies in system metrics using EWMA (Exponentially Weighted Moving Average) and z-score analysis with advanced hysteresis and per-metric tuning.
 
-**🖥️ Cross-Platform Support**: macOS, Linux, and Windows
+** Cross-Platform Support**: macOS, Linux, and Windows
 
 ## Features
 
-### 🚨 Real-time Monitoring
+### Real-time Monitoring
 - **Live Metrics Display**: Color-coded real-time monitoring of 5 system metrics
 - **Visual Progress Bars**: For percentage-based metrics (CPU, RAM)
 - **Status Indicators**: Normal/Warning/Anomaly status with color coding
 - **Warm-up Period**: System learns baseline behavior before raising alerts (2 minutes)
 - **Interactive CLI**: Press 'i' for menu system with timeline and statistics
 
-### 🎯 Advanced Anomaly Detection
+### Anomaly Detection
 - **EWMA Algorithm**: Exponentially Weighted Moving Average for trend analysis
 - **Z-Score Analysis**: Statistical anomaly detection with per-metric thresholds
 - **Multi-Metric Monitoring**: CPU, RAM, Disk I/O, Heap, Uptime
 - **Per-Metric Tuning**: Each metric has optimized sensitivity levels
 - **Hysteresis System**: Prevents rapid on/off alerts with sophisticated state tracking
 
-### 🚨 Sophisticated Alarm System
+### Alarm System
 - **Visual Alarms**: Blinking indicators and color-coded alerts
 - **Audio Alarms**: System bell notifications for anomalies
 - **Real-time Alerts**: Immediate notification when anomalies are detected
 - **Hysteresis Control**: 30-second minimum between alerts, 10 consecutive normal samples to clear
 - **Per-Metric Thresholds**: Different sensitivity for each metric type
 
-### 📊 Anomaly Timeline
+### Anomaly Timeline
 - **Event Recording**: All anomalies are stored with timestamps
 - **Timeline Display**: View recent anomalies in chronological order
 - **Statistics**: Detailed analysis of anomaly patterns
 - **Export Capability**: Save anomaly data for further analysis
 - **Interactive Management**: Clear timeline, view statistics, export data
 
-### 🎮 Enhanced Interactive CLI
+### Interactive CLI
 - **Menu System**: Press 'i' to access interactive menu
 - **Help System**: Comprehensive documentation and usage guide
 - **Statistics View**: Detailed anomaly analysis and metrics
 - **Timeline Management**: View, clear, and export anomaly data
 - **Real-time Status**: Live updates with color-coded indicators
 
-### 🖥️ Cross-Platform Support
+### Cross-Platform Support
 - **macOS**: Native Mach API integration for optimal performance
 - **Linux**: /proc filesystem and sysinfo API support
 - **Windows**: Performance Data Helper (PDH) API integration
