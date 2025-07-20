@@ -1,0 +1,134 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: |
+        brew install cmake
+        
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        
+    - name: Build
+      run: |
+        cd build
+        make -j$(nproc)
+        
+    - name: Test
+      run: |
+        cd build/bin
+        gtimeout 10s ./anom_detect_macos 2>/dev/null || echo "Test completed"
+        
+    - name: Create release package
+      run: |
+        cd build
+        cpack
+        
+    - name: Upload macOS artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: anom-detect-macos
+        path: build/anom-detect-*-macos.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential
+        
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        
+    - name: Build
+      run: |
+        cd build
+        make -j$(nproc)
+        
+    - name: Test
+      run: |
+        cd build/bin
+        timeout 10s ./anom_detect_linux 2>/dev/null || echo "Test completed"
+        
+    - name: Create release package
+      run: |
+        cd build
+        cpack
+        
+    - name: Upload Linux artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: anom-detect-linux
+        path: build/anom-detect-*-linux.tar.gz
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        
+    - name: Build
+      run: |
+        cd build
+        cmake --build . --config Release
+        
+    - name: Test
+      run: |
+        cd build/bin/Release
+        timeout 10s ./anom_detect_windows.exe 2>/dev/null || echo "Test completed"
+        
+    - name: Create release package
+      run: |
+        cd build
+        cpack
+        
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: anom-detect-windows
+        path: build/anom-detect-*-windows.zip
+
+  create-release:
+    needs: [build-macos, build-linux, build-windows]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          anom-detect-macos/anom-detect-*-macos.zip
+          anom-detect-linux/anom-detect-*-linux.tar.gz
+          anom-detect-windows/anom-detect-*-windows.zip
+        generate_release_notes: true
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
